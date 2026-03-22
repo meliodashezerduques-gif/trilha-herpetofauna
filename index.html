@@ -1,1161 +1,364 @@
-!DOCTYPE html
-html lang=pt-BR
-head
-  meta charset=UTF-8 
-  meta name=viewport content=width=device-width, initial-scale=1.0, viewport-fit=cover 
-  titleTrilha da Herpetofauna — Controle do Professor(a)title
-  style
-    root {
-      --bg-1 #f6f1e7;
-      --bg-2 #e8dcc4;
-      --panel rgba(255, 251, 243, 0.96);
-      --panel-strong #fffaf1;
-      --ink #2d241a;
-      --muted #786a57;
-      --gold #b98b3f;
-      --gold-dark #926a2f;
-      --leaf #55753c;
-      --leaf-soft #e6efdc;
-      --frog #4a8d59;
-      --snake #8b5e3c;
-      --danger #b53a2d;
-      --danger-soft #fae2de;
-      --line #ddcfb7;
-      --shadow 0 10px 28px rgba(55, 37, 13, 0.12);
-      --radius-xl 24px;
-      --radius-lg 18px;
-      --radius-md 14px;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Trilha da Herpetofauna — Controle do Professor(a)</title>
+  <style>
+    :root {
+      --bg-1: #f6f1e7;
+      --bg-2: #e8dcc4;
+      --panel: rgba(255, 251, 243, 0.96);
+      --panel-strong: #fffaf1;
+      --ink: #2d241a;
+      --muted: #786a57;
+      --gold: #b98b3f;
+      --gold-dark: #926a2f;
+      --leaf: #55753c;
+      --leaf-soft: #e6efdc;
+      --frog: #4a8d59;
+      --snake: #8b5e3c;
+      --danger: #b53a2d;
+      --danger-soft: #fae2de;
+      --line: #ddcfb7;
+      --shadow: 0 10px 28px rgba(55, 37, 13, 0.12);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
     }
 
-     { box-sizing border-box; -webkit-tap-highlight-color transparent; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
-      margin 0;
-      font-family Trebuchet MS, Segoe UI, Arial, sans-serif;
-      color var(--ink);
-      background
+      margin: 0;
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: 
         radial-gradient(circle at top left, rgba(255,255,255,.45), transparent 22%),
         radial-gradient(circle at bottom right, rgba(255,255,255,.32), transparent 20%),
         linear-gradient(180deg, var(--bg-1), var(--bg-2));
-      min-height 100vh;
+      min-height: 100vh;
     }
 
     .wrap {
-      max-width 760px;
-      margin 0 auto;
-      padding 14px;
-      padding-bottom 110px;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 14px;
+      padding-bottom: 110px;
     }
 
     .hero {
-      position relative;
-      overflow hidden;
-      background linear-gradient(135deg, rgba(255,250,241,.98), rgba(249,241,223,.98));
-      border 1px solid rgba(185,139,63,.22);
-      border-radius 28px;
-      box-shadow var(--shadow);
-      padding 18px;
-      margin-bottom 14px;
-    }
-
-    .herobefore,
-    .heroafter {
-      content ;
-      position absolute;
-      border-radius 999px;
-      opacity .18;
-      pointer-events none;
-    }
-
-    .herobefore {
-      width 180px;
-      height 180px;
-      background radial-gradient(circle, #a2c274 0%, transparent 70%);
-      top -60px;
-      right -55px;
-    }
-
-    .heroafter {
-      width 150px;
-      height 150px;
-      background radial-gradient(circle, #d2a963 0%, transparent 70%);
-      bottom -65px;
-      left -50px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,250,241,.98), rgba(249,241,223,.98));
+      border: 1px solid rgba(185,139,63,.22);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-bottom: 14px;
     }
 
     .title-badge {
-      display inline-flex;
-      align-items center;
-      gap 8px;
-      background #f4ead5;
-      color var(--gold-dark);
-      border 1px solid rgba(185,139,63,.28);
-      border-radius 999px;
-      padding 8px 12px;
-      font-size 12px;
-      font-weight 800;
-      letter-spacing .04em;
-      text-transform uppercase;
-      margin-bottom 10px;
-      position relative;
-      z-index 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f4ead5;
+      color: var(--gold-dark);
+      border: 1px solid rgba(185,139,63,.28);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
-    h1 {
-      margin 0;
-      font-size clamp(26px, 6vw, 36px);
-      line-height 1.04;
-      position relative;
-      z-index 1;
-    }
+    h1 { margin: 0; font-size: clamp(26px, 6vw, 36px); line-height: 1.04; }
 
-    .subtitle {
-      margin-top 10px;
-      color var(--muted);
-      font-size 14px;
-      line-height 1.45;
-      position relative;
-      z-index 1;
-      max-width 540px;
-    }
+    .subtitle { margin-top: 10px; color: var(--muted); font-size: 14px; line-height: 1.45; }
 
-    .mobile-actions {
-      display grid;
-      grid-template-columns 1fr 1fr;
-      gap 10px;
-      margin-top 14px;
-      position relative;
-      z-index 1;
-    }
+    .mobile-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
 
     .card {
-      background var(--panel);
-      border 1px solid rgba(119, 91, 41, 0.14);
-      border-radius var(--radius-xl);
-      box-shadow var(--shadow);
-      backdrop-filter blur(6px);
-      margin-bottom 14px;
+      background: var(--panel);
+      border: 1px solid rgba(119, 91, 41, 0.14);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(6px);
+      margin-bottom: 14px;
+      padding: 16px;
     }
 
-    .section { padding 16px; }
+    .section-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
 
-    .section h2 {
-      margin 0;
-      font-size 20px;
-      line-height 1.15;
-    }
+    .section-note { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-    .section-head {
-      display flex;
-      justify-content space-between;
-      align-items flex-start;
-      gap 10px;
-      flex-wrap wrap;
-      margin-bottom 12px;
-    }
+    .stack { display: grid; gap: 12px; }
 
-    .section-note {
-      font-size 12px;
-      color var(--muted);
-      line-height 1.4;
-      margin-top 4px;
-    }
+    label { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--muted); }
 
-    .stack { display grid; gap 12px; }
+    input, select, button { font: inherit; }
 
-    label {
-      display block;
-      margin-bottom 6px;
-      font-size 12px;
-      font-weight 800;
-      letter-spacing .04em;
-      text-transform uppercase;
-      color var(--muted);
-    }
-
-    input, select, button { font inherit; }
-
-    input, select {
-      width 100%;
-      min-height 54px;
-      padding 14px 15px;
-      border-radius 16px;
-      border 1px solid #ddcfb7;
-      background #fffdf8;
-      color var(--ink);
-      transition .2s ease;
-      font-size 16px;
-    }
-
-    inputfocus, selectfocus {
-      outline none;
-      border-color rgba(185,139,63,.7);
-      box-shadow 0 0 0 4px rgba(185,139,63,.12);
+    input {
+      width: 100%; min-height: 54px; padding: 14px; border-radius: 16px;
+      border: 1px solid #ddcfb7; background: #fffdf8; font-size: 16px;
     }
 
     button {
-      border none;
-      border-radius 16px;
-      min-height 56px;
-      padding 14px 16px;
-      cursor pointer;
-      font-weight 800;
-      font-size 16px;
-      letter-spacing .01em;
-      transition transform .04s ease, opacity .2s ease, filter .2s ease;
+      border: none; border-radius: 16px; min-height: 56px; padding: 14px;
+      cursor: pointer; font-weight: 800; transition: transform .1s;
     }
 
-    buttonactive { transform translateY(1px); }
-    buttondisabled { opacity .55; cursor not-allowed; }
+    button:active { transform: scale(0.98); }
 
-    .btn-primary {
-      color white;
-      background linear-gradient(180deg, var(--gold), var(--gold-dark));
-      box-shadow 0 8px 20px rgba(146, 106, 47, .24);
+    .btn-primary { color: white; background: linear-gradient(180deg, var(--gold), var(--gold-dark)); }
+    .btn-success { color: white; background: linear-gradient(180deg, #679549, #4f7838); }
+    .btn-error { color: white; background: linear-gradient(180deg, #d65b4f, #b53a2d); }
+    .btn-secondary { background: #f5ead6; color: var(--ink); border: 1px solid #dcc; }
+    .btn-danger { background: #c84b3f; color: white; }
+
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .summary-box { padding: 12px; border-radius: 14px; background: white; border: 1px solid #eee; }
+    .summary-label { font-size: 10px; color: var(--muted); text-transform: uppercase; }
+    .summary-value { font-weight: 800; font-size: 15px; }
+
+    .quick-group-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; }
+    .quick-group-btn { background: white; border: 2px solid #eee; border-radius: 14px; padding: 8px; text-align: left; height: auto; }
+    .quick-group-btn.active { border-color: var(--gold); background: #fffcf5; }
+
+    .placar-item { 
+      display: flex; justify-content: space-between; align-items: center; 
+      padding: 12px; background: white; border-radius: 16px; margin-bottom: 8px; border: 1px solid #eee;
     }
+    .placar-item.winner { border-color: var(--leaf); background: #f4faef; }
 
-    .btn-success {
-      color white;
-      background linear-gradient(180deg, #679549, #4f7838);
-      box-shadow 0 8px 20px rgba(79, 120, 56, .22);
+    .house-board { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+    .house { height: 30px; font-size: 10px; display: grid; place-items: center; background: white; border: 1px solid #eee; border-radius: 6px; }
+    .house.visited { background: var(--leaf); color: white; }
+
+    .history-item { padding: 10px; background: white; border-radius: 12px; margin-bottom: 8px; border-left: 4px solid var(--gold); }
+    .notice { padding: 12px; border-radius: 12px; margin: 10px 0; font-size: 14px; display: none; }
+    .notice.show { display: block; }
+    .notice.ok { background: #e7f3e4; color: var(--leaf); }
+    .notice.bad { background: var(--danger-soft); color: var(--danger); }
+    
+    .hidden { display: none !important; }
+
+    @media (max-width: 600px) {
+      .house-board { grid-template-columns: repeat(5, 1fr); }
     }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="title-badge">🐍 Trilha da Herpetofauna 🐸</div>
+      <h1>Controle do Professor(a)</h1>
+      <div class="subtitle">Gestão de partida em tempo real para atividades pedagógicas.</div>
+      <div class="mobile-actions">
+        <button class="btn-secondary" id="btnExportar">📦 PDF / Imprimir</button>
+        <button class="btn-danger" id="btnResetar">🗑️ Apagar Tudo</button>
+      </div>
+    </section>
 
-    .btn-error {
-      color white;
-      background linear-gradient(180deg, #d65b4f, #b53a2d);
-      box-shadow 0 8px 20px rgba(181, 58, 45, .22);
-    }
+    <section class="card">
+      <div class="section-head">
+        <h2>Equipes</h2>
+        <button class="btn-secondary" id="btnToggleEquipes">Ocultar</button>
+      </div>
+      <div id="equipesContent">
+        <div id="grupoInputs" class="stack"></div>
+      </div>
+    </section>
 
-    .btn-secondary {
-      color var(--ink);
-      background linear-gradient(180deg, #f5ead6, #ebdcc2);
-      border 1px solid rgba(185,139,63,.18);
-    }
-
-    .btn-danger {
-      color white;
-      background linear-gradient(180deg, #c84b3f, #a93125);
-      box-shadow 0 8px 20px rgba(169, 49, 37, .18);
-    }
-
-    .summary-grid {
-      display grid;
-      grid-template-columns 1fr 1fr;
-      gap 10px;
-    }
-
-    .summary-box {
-      padding 14px;
-      border-radius 18px;
-      background linear-gradient(180deg, rgba(255,255,255,.8), rgba(248,240,224,.9));
-      border 1px solid rgba(185,139,63,.16);
-    }
-
-    .summary-label {
-      display block;
-      font-size 11px;
-      font-weight 800;
-      letter-spacing .04em;
-      text-transform uppercase;
-      color var(--muted);
-      margin-bottom 6px;
-    }
-
-    .summary-value {
-      font-size 16px;
-      font-weight 800;
-      word-break break-word;
-    }
-
-    .notice {
-      display none;
-      margin-top 12px;
-      padding 14px 16px;
-      border-radius 16px;
-      font-size 14px;
-      line-height 1.45;
-      border 1px solid transparent;
-    }
-
-    .notice.show { display block; }
-    .notice.info { background #f2ede5; color #5f5347; border-color rgba(119,91,41,.12); }
-    .notice.ok { background #e7f3e4; color var(--leaf); border-color rgba(85,117,60,.18); }
-    .notice.warn { background #fdf0de; color #9a620d; border-color rgba(185,139,63,.25); }
-    .notice.bad { background var(--danger-soft); color var(--danger); border-color rgba(181,58,45,.18); }
-
-    .team-grid {
-      display grid;
-      gap 10px;
-      grid-template-columns 1fr;
-    }
-
-    .team-card {
-      border-radius 18px;
-      padding 14px;
-      border 1px solid rgba(119, 91, 41, .12);
-      background linear-gradient(180deg, rgba(255,255,255,.88), rgba(244,238,224,.92));
-      display grid;
-      grid-template-columns 1fr auto;
-      align-items center;
-      gap 10px;
-    }
-
-    .team-name {
-      font-weight 800;
-      font-size 16px;
-      margin-bottom 6px;
-    }
-
-    .team-meta {
-      color var(--muted);
-      font-size 13px;
-      line-height 1.35;
-    }
-
-    .team-score {
-      display inline-flex;
-      align-items center;
-      justify-content center;
-      min-width 70px;
-      padding 10px 12px;
-      border-radius 999px;
-      background var(--leaf-soft);
-      color var(--leaf);
-      font-weight 900;
-      font-size 18px;
-    }
-
-    .quick-group-grid {
-      display grid;
-      grid-template-columns 1fr 1fr;
-      gap 10px;
-    }
-
-    .quick-group-btn {
-      min-height 64px;
-      border-radius 18px;
-      padding 12px;
-      border 2px solid transparent;
-      background linear-gradient(180deg, rgba(255,255,255,.96), rgba(245,238,226,.96));
-      color var(--ink);
-      text-align left;
-      box-shadow none;
-    }
-
-    .quick-group-btn.active {
-      border-color rgba(185,139,63,.65);
-      box-shadow 0 0 0 4px rgba(185,139,63,.10);
-    }
-
-    .quick-group-name {
-      font-weight 800;
-      font-size 15px;
-      display block;
-    }
-
-    .quick-group-meta {
-      font-size 12px;
-      color var(--muted);
-      margin-top 4px;
-      display block;
-    }
-
-    .quick-result-grid {
-      display grid;
-      grid-template-columns 1fr 1fr;
-      gap 10px;
-    }
-
-    .cta-register {
-      position sticky;
-      bottom 12px;
-      z-index 10;
-      margin-top 10px;
-      padding-top 4px;
-      background linear-gradient(180deg, rgba(246,241,231,0), rgba(246,241,231,0.72) 28%, rgba(246,241,231,0.96));
-    }
-
-    .placar-list {
-      display grid;
-      gap 10px;
-    }
-
-    .placar-item {
-      display grid;
-      grid-template-columns 56px 1fr auto;
-      gap 12px;
-      align-items center;
-      padding 14px;
-      border-radius 18px;
-      border 1px solid rgba(119, 91, 41, .12);
-      background linear-gradient(180deg, rgba(255,255,255,.94), rgba(245,238,226,.94));
-    }
-
-    .placar-item.winner {
-      border-color rgba(85,117,60,.35);
-      background linear-gradient(180deg, #f4faef, #ebf6e5);
-      box-shadow inset 0 0 0 1px rgba(85,117,60,.12);
-    }
-
-    .posicao {
-      width 52px;
-      height 52px;
-      border-radius 50%;
-      display grid;
-      place-items center;
-      background linear-gradient(180deg, #ecd8ac, #c9974f);
-      color #fff;
-      font-weight 900;
-      font-size 18px;
-    }
-
-    .placar-name { font-size 16px; font-weight 800; }
-    .muted { color var(--muted); font-size 13px; }
-
-    .right-score {
-      text-align right;
-      min-width 70px;
-    }
-
-    .big-number {
-      font-size 24px;
-      font-weight 900;
-      color var(--leaf);
-      line-height 1;
-    }
-
-    .tag {
-      display inline-flex;
-      align-items center;
-      justify-content center;
-      margin-top 6px;
-      min-width 82px;
-      text-align center;
-      padding 7px 9px;
-      border-radius 999px;
-      font-size 11px;
-      font-weight 800;
-    }
-
-    .tag.win { background #e1f0dc; color var(--leaf); }
-    .tag.normal { background #eee7d9; color #72634f; }
-
-    .house-board {
-      display grid;
-      grid-template-columns repeat(5, 1fr);
-      gap 8px;
-    }
-
-    .house {
-      min-height 54px;
-      padding 8px 4px;
-      border-radius 14px;
-      border 1px solid rgba(119, 91, 41, .12);
-      background linear-gradient(180deg, rgba(255,255,255,.96), rgba(242,235,222,.96));
-      text-align center;
-      font-weight 800;
-      color #6e5f4a;
-      display grid;
-      place-items center;
-      font-size 13px;
-    }
-
-    .house.visited {
-      background linear-gradient(180deg, #e9f5e3, #dcefd3);
-      color var(--leaf);
-      border-color rgba(85,117,60,.25);
-    }
-
-    .history {
-      display grid;
-      gap 10px;
-      max-height 420px;
-      overflow auto;
-      padding-right 2px;
-    }
-
-    .history-item {
-      border-radius 16px;
-      padding 13px 14px;
-      border 1px solid rgba(119,91,41,.12);
-      background linear-gradient(180deg, rgba(255,255,255,.96), rgba(247,241,230,.96));
-    }
-
-    .history-top {
-      display flex;
-      justify-content space-between;
-      gap 8px;
-      align-items flex-start;
-      flex-wrap wrap;
-      margin-bottom 8px;
-    }
-
-    .history-title { font-weight 800; }
-
-    .badge-ok,
-    .badge-no {
-      display inline-flex;
-      align-items center;
-      gap 6px;
-      border-radius 999px;
-      padding 7px 10px;
-      font-size 12px;
-      font-weight 800;
-    }
-
-    .badge-ok { background #e3f1df; color var(--leaf); }
-    .badge-no { background #f9e2df; color var(--danger); }
-
-    .pill-row {
-      display flex;
-      flex-wrap wrap;
-      gap 8px;
-    }
-
-    .pill {
-      display inline-flex;
-      align-items center;
-      gap 8px;
-      padding 8px 12px;
-      border-radius 999px;
-      background #f0eadb;
-      border 1px solid rgba(119, 91, 41, .12);
-      font-size 12px;
-      color #695b48;
-      font-weight 700;
-    }
-
-    .empty {
-      padding 22px 14px;
-      border-radius 18px;
-      text-align center;
-      color var(--muted);
-      background linear-gradient(180deg, rgba(255,255,255,.85), rgba(245,238,226,.85));
-      border 1px dashed rgba(119, 91, 41, .18);
-    }
-
-    .collapse-btn {
-      min-height 44px;
-      padding 10px 14px;
-      font-size 14px;
-    }
-
-    .hidden { display none !important; }
-
-    @media (min-width 761px) {
-      .wrap { max-width 1040px; }
-      .mobile-actions { grid-template-columns repeat(3, 1fr); }
-      .team-grid { grid-template-columns 1fr 1fr; }
-      .quick-group-grid { grid-template-columns repeat(5, 1fr); }
-      .summary-grid { grid-template-columns repeat(4, 1fr); }
-      .house-board { grid-template-columns repeat(10, 1fr); }
-    }
-  style
-head
-body
-  div class=wrap
-    section class=hero
-      div class=title-badge🐍 Trilha da Herpetofauna 🐸div
-      h1Controle do Professor(a)h1
-      div class=subtitle
-        Página de controle da partida para registro rápido das jogadas, acompanhamento das equipes, pontuação e visualização do andamento do jogo em tempo real.
-      div
-      div class=mobile-actions
-        button class=btn-secondary id=btnNovaPartida✨ Nova partidabutton
-        button class=btn-secondary id=btnExportar📦 Exportarbutton
-        button class=btn-danger id=btnResetar🗑️ Apagarbutton
-      div
-    section
-
-    section class=card section
-      div class=section-head
-        div
-          h2Equipesh2
-          div class=section-noteEdite os nomes e acompanhe casa atual e pontuação.div
-        div
-        button class=btn-secondary collapse-btn id=btnToggleEquipesOcultarbutton
-      div
-      div id=equipesContent class=stack
-        div id=grupoInputs class=stackdiv
+    <section class="card">
+      <h2>Registrar Jogada</h2>
+      <div class="stack">
+        <label>Selecione a Equipe</label>
+        <div id="quickGroupGrid" class="quick-group-grid"></div>
         
-        div id=teamPreviewdiv
-      div
-    section
+        <label>Casa Alcançada (1-50)</label>
+        <input id="casaInput" type="number" min="1" max="50" placeholder="Ex: 12" inputmode="numeric">
 
-    section class=card section
-      div class=section-head
-        div
-          h2Painel da partidah2
-          div class=section-noteResumo rápido da sessão atual.div
-        div
-      div
-      div class=summary-grid id=resumoMetadiv
-      div class=notice info show id=statusPartidaNenhuma jogada registrada ainda.div
-    section
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <button class="btn-success" id="btnAcertou">✅ Acertou</button>
+          <button class="btn-error" id="btnErrou">❌ Errou</button>
+        </div>
+        <button class="btn-primary" id="btnRegistrar" style="margin-top:10px">🎯 Registrar Jogada</button>
+      </div>
+      <div id="feedback" class="notice"></div>
+      <button class="btn-secondary" id="btnDesfazer" style="width: 100%; margin-top: 10px; min-height: 40px;">↩️ Desfazer Última</button>
+    </section>
 
-    section class=card section
-      div class=section-head
-        div
-          h2Registrar jogadah2
-          div class=section-noteSelecione o grupo, informe a casa e toque no resultado.div
-        div
-      div
+    <section class="card">
+      <h2>Ranking Atual</h2>
+      <div id="tabelaPlacar"></div>
+    </section>
 
-      div class=stack
-        div
-          labelGrupolabel
-          div id=quickGroupGrid class=quick-group-griddiv
-        div
+    <section class="card">
+      <div class="section-head">
+        <h2>Mapa de Casas</h2>
+        <button class="btn-secondary" id="btnToggleCasas">Ver</button>
+      </div>
+      <div id="casasContent" class="hidden">
+        <div id="casasVisitadas" class="house-board"></div>
+      </div>
+    </section>
 
-        div
-          label for=casaInputCasalabel
-          input id=casaInput type=number min=1 max=50 placeholder=Digite a casa, ex. 12 inputmode=numeric 
-        div
+    <section class="card">
+      <div class="section-head">
+        <h2>Histórico</h2>
+        <button class="btn-secondary" id="btnToggleHistorico">Ver</button>
+      </div>
+      <div id="historicoContent" class="hidden">
+        <div id="historico"></div>
+      </div>
+    </section>
+  </div>
 
-        
-
-        div
-          labelResultadolabel
-          div class=quick-result-grid
-            button class=btn-success id=btnAcertou✅ Acertou (+1)button
-            button class=btn-error id=btnErrou❌ Errou (+0)button
-          div
-        div
-      div
-
-      div class=cta-register
-        button class=btn-primary id=btnRegistrar🎯 Registrar jogadabutton
-      div
-
-      div style=displaynone;
-        select id=grupoSelectselect
-        select id=resultadoSelect
-          option value=acertouAcertou (+1 ponto)option
-          option value=errouErrou (+0 ponto)option
-        select
-      div
-
-      div class=notice id=feedbackdiv
-      div style=margin-top 10px;
-        button class=btn-secondary id=btnDesfazer↩️ Desfazer última jogadabutton
-      div
-    section
-
-    section class=card section
-      div class=section-head
-        div
-          h2Ranking da partidah2
-          div class=section-noteMostra vencedor parcial ou empate.div
-        div
-      div
-      div id=tabelaPlacardiv
-    section
-
-    section class=card section
-      div class=section-head
-        div
-          h2Mapa das 50 casash2
-          div class=section-noteCasas já usadas ficam destacadas em verde.div
-        div
-        button class=btn-secondary collapse-btn id=btnToggleCasasOcultarbutton
-      div
-      div id=casasContent
-        div id=casasVisitadasdiv
-      div
-    section
-
-    section class=card section
-      div class=section-head
-        div
-          h2Histórico de jogadash2
-          div class=section-noteLista completa das rodadas registradas.div
-        div
-        button class=btn-secondary collapse-btn id=btnToggleHistoricoOcultarbutton
-      div
-      div id=historicoContent
-        div id=historicodiv
-      div
-    section
-  div
-
-  script
-    const STORAGE_KEY = 'placar_partida_sessao_v3_mobile';
+  <script>
+    const STORAGE_KEY = 'trilha_herpeto_v1';
     const TOTAL_GRUPOS = 5;
     const TOTAL_CASAS = 50;
-
-    const grupoInputsEl = document.getElementById('grupoInputs');
-    const grupoSelectEl = document.getElementById('grupoSelect');
-    const casaInputEl = document.getElementById('casaInput');
-    const resultadoSelectEl = document.getElementById('resultadoSelect');
-    
-    const feedbackEl = document.getElementById('feedback');
-    const resumoMetaEl = document.getElementById('resumoMeta');
-    const tabelaPlacarEl = document.getElementById('tabelaPlacar');
-    const casasVisitadasEl = document.getElementById('casasVisitadas');
-    const historicoEl = document.getElementById('historico');
-    const statusPartidaEl = document.getElementById('statusPartida');
-    const teamPreviewEl = document.getElementById('teamPreview');
-    const quickGroupGridEl = document.getElementById('quickGroupGrid');
 
     let grupoSelecionadoId = 1;
     let resultadoSelecionado = 'acertou';
 
-    function gerarId() {
-      return `PARTIDA-${Date.now()}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
-    }
-
-    function agoraFormatado() {
-      return new Date().toLocaleString('pt-BR');
-    }
-
     function criarEstadoInicial() {
       return {
-        id gerarId(),
-        criadaEm agoraFormatado(),
-        grupos Array.from({ length TOTAL_GRUPOS }, (_, i) = ({
-          id i + 1,
-          nome `Grupo ${i + 1}`,
-          casaAtual '-',
-          pontos 0
+        id: `PARTIDA-${Date.now()}`,
+        grupos: Array.from({ length: TOTAL_GRUPOS }, (_, i) => ({
+          id: i + 1,
+          nome: `Equipe ${i + 1}`,
+          casaAtual: '-',
+          pontos: 0
         })),
-        jogadas [],
-        casasVisitadas []
+        jogadas: [],
+        casasVisitadas: []
       };
     }
 
-    function salvarEstado(estado) {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
-    }
+    let estado = JSON.parse(localStorage.getItem(STORAGE_KEY)) || criarEstadoInicial();
 
-    function carregarEstado() {
-      const bruto = sessionStorage.getItem(STORAGE_KEY);
-      if (!bruto) {
-        const estado = criarEstadoInicial();
-        salvarEstado(estado);
-        return estado;
-      }
-      try {
-        return JSON.parse(bruto);
-      } catch {
-        const estado = criarEstadoInicial();
-        salvarEstado(estado);
-        return estado;
-      }
-    }
-
-    let estado = carregarEstado();
-
-    function escapeHtml(texto) {
-      return String(texto)
-        .replaceAll('&', '&amp;')
-        .replaceAll('', '&lt;')
-        .replaceAll('', '&gt;')
-        .replaceAll('', '&quot;')
-        .replaceAll(', '&#039;');
-    }
-
-    function montarInputsGrupos() {
-      grupoInputsEl.innerHTML = '';
-      for (let i = 0; i  TOTAL_GRUPOS; i++) {
-        const box = document.createElement('div');
-        box.innerHTML = `
-          label for=grupoNome${i + 1}Grupo ${i + 1}label
-          input id=grupoNome${i + 1} maxlength=30 placeholder=Nome do grupo ${i + 1} value=${escapeHtml(estado.grupos[i].nome  `Grupo ${i + 1}`)} 
-        `;
-        grupoInputsEl.appendChild(box);
-      }
-    }
-
-    function popularSelectGrupos() {
-      grupoSelectEl.innerHTML = estado.grupos
-        .map(g = `option value=${g.id} ${g.id === grupoSelecionadoId  'selected'  ''}${escapeHtml(g.nome)}option`)
-        .join('');
-    }
-
-    function renderQuickGroupButtons() {
-      quickGroupGridEl.innerHTML = estado.grupos.map((g, i) = `
-        button class=quick-group-btn ${g.id === grupoSelecionadoId  'active'  ''} data-group-id=${g.id}
-          span class=quick-group-name${i % 2 === 0  '🐸'  '🐍'} ${escapeHtml(g.nome)}span
-          span class=quick-group-metaCasa ${escapeHtml(String(g.casaAtual))} • Pontos ${g.pontos}span
-        button
-      `).join('');
-
-      quickGroupGridEl.querySelectorAll('[data-group-id]').forEach(btn = {
-        btn.addEventListener('click', () = {
-          grupoSelecionadoId = Number(btn.getAttribute('data-group-id'));
-          grupoSelectEl.value = String(grupoSelecionadoId);
-          renderQuickGroupButtons();
-        });
-      });
-    }
-
-    function atualizarNomesAPartirInputs() {
-      estado.grupos = estado.grupos.map((g, i) = {
-        const input = document.getElementById(`grupoNome${i + 1}`);
-        const nome = input.value.trim()  `Grupo ${i + 1}`;
-        return { ...g, nome };
-      });
-      salvarEstado(estado);
-      popularSelectGrupos();
+    function salvar() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
       render();
-    }
-
-    function mostrarFeedback(tipo, mensagem) {
-      feedbackEl.className = `notice show ${tipo}`;
-      feedbackEl.innerHTML = mensagem;
-    }
-
-    function limparFeedback() {
-      feedbackEl.className = 'notice';
-      feedbackEl.innerHTML = '';
-    }
-
-    function renderTeamPreview() {
-      teamPreviewEl.innerHTML = `
-        div class=team-grid
-          ${estado.grupos.map((g, i) = `
-            div class=team-card
-              div
-                div class=team-name${i % 2 === 0  '🐸'  '🐍'} ${escapeHtml(g.nome)}div
-                div class=team-metaCasa atual strong${escapeHtml(String(g.casaAtual))}strongdiv
-              div
-              div class=team-score${g.pontos}div
-            div
-          `).join('')}
-        div
-      `;
-    }
-
-    function renderResumo() {
-      resumoMetaEl.innerHTML = `
-        div class=summary-box
-          span class=summary-labelID da partidaspan
-          div class=summary-value${escapeHtml(estado.id)}div
-        div
-        div class=summary-box
-          span class=summary-labelCriada emspan
-          div class=summary-value${escapeHtml(estado.criadaEm)}div
-        div
-        div class=summary-box
-          span class=summary-labelJogadasspan
-          div class=summary-value${estado.jogadas.length}div
-        div
-        div class=summary-box
-          span class=summary-labelCasas visitadasspan
-          div class=summary-value${estado.casasVisitadas.length}  ${TOTAL_CASAS}div
-        div
-      `;
-
-      if (estado.jogadas.length === 0) {
-        statusPartidaEl.className = 'notice info show';
-        statusPartidaEl.innerHTML = 'Nenhuma jogada registrada ainda.';
-      } else if (estado.casasVisitadas.length === TOTAL_CASAS) {
-        statusPartidaEl.className = 'notice ok show';
-        statusPartidaEl.innerHTML = 'Todas as 50 casas já foram visitadas nesta partida.';
-      } else {
-        statusPartidaEl.className = 'notice ok show';
-        statusPartidaEl.innerHTML = 'Partida em andamento normalmente.';
-      }
-    }
-
-    function obterRanking() {
-      return [...estado.grupos].sort((a, b) = {
-        if (b.pontos !== a.pontos) return b.pontos - a.pontos;
-        return String(a.nome).localeCompare(String(b.nome), 'pt-BR');
-      });
-    }
-
-    function renderPlacar() {
-      const ranking = obterRanking();
-      const maiorPontuacao = ranking[0].pontos  0;
-      const vencedores = ranking.filter(g = g.pontos === maiorPontuacao && maiorPontuacao  0).map(g = g.id);
-
-      tabelaPlacarEl.innerHTML = `
-        div class=placar-list
-          ${ranking.map((g, i) = `
-            div class=placar-item ${vencedores.includes(g.id)  'winner'  ''}
-              div class=posicao${i + 1}ºdiv
-              div
-                div class=placar-name${escapeHtml(g.nome)}div
-                div class=mutedCasa atual ${escapeHtml(String(g.casaAtual))}div
-              div
-              div class=right-score
-                div class=big-number${g.pontos}div
-                span class=tag ${vencedores.includes(g.id)  'win'  'normal'}${vencedores.includes(g.id)  'Vencedor'  'Em jogo'}span
-              div
-            div
-          `).join('')}
-        div
-      `;
-    }
-
-    function renderCasasVisitadas() {
-      const casas = Array.from({ length TOTAL_CASAS }, (_, i) = i + 1);
-      casasVisitadasEl.innerHTML = `
-        div class=house-board
-          ${casas.map(casa = `
-            div class=house ${estado.casasVisitadas.includes(casa)  'visited'  ''}Casa ${casa}div
-          `).join('')}
-        div
-      `;
-    }
-
-    function renderHistorico() {
-      if (estado.jogadas.length === 0) {
-        historicoEl.innerHTML = 'div class=emptySem jogadas registradas.div';
-        return;
-      }
-
-      historicoEl.innerHTML = `
-        div class=history
-          ${[...estado.jogadas].reverse().map(j = `
-            div class=history-item
-              div class=history-top
-                div class=history-title ${escapeHtml(j.grupoNome)}div
-                div${j.acertou  'span class=badge-ok✔ Acertouspan'  'span class=badge-no✖ Errouspan'}div
-              div
-              div class=pill-row
-                span class=pillCasa ${j.casa}span
-                span class=pillPontuação +${j.pontos}span
-                span class=pill${escapeHtml(j.registradaEm)}span
-              div
-            div
-          `).join('')}
-        div
-      `;
     }
 
     function render() {
-      renderTeamPreview();
-      renderResumo();
-      renderQuickGroupButtons();
-      renderPlacar();
-      renderCasasVisitadas();
-      renderHistorico();
+      // Inputs de Nomes
+      const inputsContainer = document.getElementById('grupoInputs');
+      if (inputsContainer.innerHTML === '') {
+        estado.grupos.forEach(g => {
+          const div = document.createElement('div');
+          div.innerHTML = `<label>Nome Equipe ${g.id}</label><input value="${g.nome}" oninput="updateNome(${g.id}, this.value)">`;
+          inputsContainer.appendChild(div);
+        });
+      }
+
+      // Quick Select Equipes
+      document.getElementById('quickGroupGrid').innerHTML = estado.grupos.map(g => `
+        <button class="quick-group-btn ${g.id === grupoSelecionadoId ? 'active' : ''}" onclick="selectGrupo(${g.id})">
+          <b>${g.nome}</b><br><small>Casa: ${g.casaAtual} | Pts: ${g.pontos}</small>
+        </button>
+      `).join('');
+
+      // Placar
+      const ranking = [...estado.grupos].sort((a,b) => b.pontos - a.pontos);
+      document.getElementById('tabelaPlacar').innerHTML = ranking.map((g, i) => `
+        <div class="placar-item ${i === 0 && g.pontos > 0 ? 'winner' : ''}">
+          <span>${i+1}º <b>${g.nome}</b></span>
+          <span>${g.pontos} Pts (Casa ${g.casaAtual})</span>
+        </div>
+      `).join('');
+
+      // Casas
+      document.getElementById('casasVisitadas').innerHTML = Array.from({length: 50}, (_, i) => i+1).map(c => `
+        <div class="house ${estado.casasVisitadas.includes(c) ? 'visited' : ''}">${c}</div>
+      `).join('');
+
+      // Histórico
+      document.getElementById('historico').innerHTML = [...estado.jogadas].reverse().map(j => `
+        <div class="history-item">
+          <b>${j.equipe}</b>: Casa ${j.casa} - ${j.acerto ? '✅ Acertou' : '❌ Errou'}
+        </div>
+      `).join('') || 'Nenhuma jogada.';
     }
 
-    function limparCamposRegistro() {
-      casaInputEl.value = '';
-      
-      resultadoSelecionado = 'acertou';
-      resultadoSelectEl.value = 'acertou';
-      updateResultButtons();
-    }
-
-    function iniciarNovaPartida() {
-      const novo = criarEstadoInicial();
-      estado = novo;
-      grupoSelecionadoId = 1;
-      montarInputsGrupos();
-      atualizarNomesAPartirInputs();
-      limparCamposRegistro();
-      limparFeedback();
-      mostrarFeedback('ok', `Nova partida iniciada com sucesso. ID da partida strong${escapeHtml(estado.id)}strong.`);
+    window.updateNome = (id, val) => {
+      estado.grupos.find(g => g.id === id).nome = val || `Equipe ${id}`;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
       render();
-    }
+    };
 
-    function registrarJogada() {
-      atualizarNomesAPartirInputs();
-      limparFeedback();
+    window.selectGrupo = (id) => {
+      grupoSelecionadoId = id;
+      render();
+    };
 
-      const grupoId = Number(grupoSelecionadoId  grupoSelectEl.value);
-      const casa = Number(casaInputEl.value);
+    document.getElementById('btnAcertou').onclick = () => { resultadoSelecionado = 'acertou'; msg('ok', 'Modo: Acerto Selecionado'); };
+    document.getElementById('btnErrou').onclick = () => { resultadoSelecionado = 'errou'; msg('bad', 'Modo: Erro Selecionado'); };
+
+    document.getElementById('btnRegistrar').onclick = () => {
+      const casa = parseInt(document.getElementById('casaInput').value);
+      if (!casa || casa < 1 || casa > 50) return msg('bad', 'Casa Inválida (1-50)');
+      if (estado.casasVisitadas.includes(casa)) return msg('bad', 'Casa já utilizada!');
+
+      const gp = estado.grupos.find(g => g.id === grupoSelecionadoId);
+      const acerto = resultadoSelecionado === 'acertou';
       
-      const acertou = resultadoSelecionado === 'acertou';
-
-      if (!grupoId) {
-        mostrarFeedback('bad', 'Selecione um grupo.');
-        return;
-      }
-
-      if (!Number.isInteger(casa)  casa  1  casa  TOTAL_CASAS) {
-        mostrarFeedback('bad', `Informe uma casa válida entre 1 e ${TOTAL_CASAS}.`);
-        return;
-      }
-
-      
-
-      if (estado.casasVisitadas.includes(casa)) {
-        mostrarFeedback('warn', `A casa strong${casa}strong já foi registrada nesta partida. O sistema bloqueou a duplicidade.`);
-        return;
-      }
-
-      const grupo = estado.grupos.find(g = g.id === grupoId);
-      if (!grupo) {
-        mostrarFeedback('bad', 'Grupo não encontrado.');
-        return;
-      }
-
-      const pontos = acertou  1  0;
-      grupo.casaAtual = casa;
-      grupo.pontos += pontos;
-
+      gp.pontos += acerto ? 1 : 0;
+      gp.casaAtual = casa;
       estado.casasVisitadas.push(casa);
-      estado.jogadas.push({
-        
-        grupoId grupo.id,
-        grupoNome grupo.nome,
-        casa,
-        acertou,
-        pontos,
-        registradaEm agoraFormatado()
-      });
+      estado.jogadas.push({ equipe: gp.nome, casa, acerto });
+      
+      document.getElementById('casaInput').value = '';
+      msg('ok', 'Registrado com sucesso!');
+      salvar();
+    };
 
-      salvarEstado(estado);
-      render();
-      limparCamposRegistro();
-      mostrarFeedback('ok', `Jogada registrada strong${escapeHtml(grupo.nome)}strong foi para a casa strong${casa}strong e ${acertou  'acertou (+1 ponto)'  'errou (+0 ponto)'}.`);
-      casaInputEl.focus();
-    }
-
-    function desfazerUltimaJogada() {
-      limparFeedback();
-      if (estado.jogadas.length === 0) {
-        mostrarFeedback('warn', 'Não há jogadas para desfazer.');
-        return;
-      }
-
+    document.getElementById('btnDesfazer').onclick = () => {
+      if (estado.jogadas.length === 0) return;
       const ultima = estado.jogadas.pop();
-      estado.casasVisitadas = estado.casasVisitadas.filter(c = c !== ultima.casa);
+      estado.casasVisitadas = estado.casasVisitadas.filter(c => c !== ultima.casa);
+      const gp = estado.grupos.find(g => g.nome === ultima.equipe);
+      if (ultima.acerto) gp.pontos -= 1;
+      const anterior = [...estado.jogadas].reverse().find(j => j.equipe === gp.nome);
+      gp.casaAtual = anterior ? anterior.casa : '-';
+      salvar();
+    };
 
-      const grupo = estado.grupos.find(g = g.id === ultima.grupoId);
-      if (grupo) {
-        grupo.pontos = Math.max(0, grupo.pontos - ultima.pontos);
-        const ultimaJogadaDoGrupo = [...estado.jogadas].reverse().find(j = j.grupoId === grupo.id);
-        grupo.casaAtual = ultimaJogadaDoGrupo  ultimaJogadaDoGrupo.casa  '-';
+    document.getElementById('btnResetar').onclick = () => {
+      if(confirm('Apagar toda a partida?')) {
+        estado = criarEstadoInicial();
+        document.getElementById('grupoInputs').innerHTML = '';
+        salvar();
       }
+    };
 
-      salvarEstado(estado);
-      render();
-      mostrarFeedback('ok', `Última jogada desfeita ${escapeHtml(ultima.grupoNome)} na casa ${ultima.casa}.`);
+    document.getElementById('btnExportar').onclick = () => window.print();
+
+    function msg(tipo, texto) {
+      const f = document.getElementById('feedback');
+      f.className = `notice show ${tipo}`;
+      f.innerText = texto;
+      setTimeout(() => f.classList.remove('show'), 3000);
     }
 
-    function exportarResultado() {
-      const ranking = obterRanking();
-      const maiorPontuacao = ranking[0].pontos  0;
-      const vencedores = ranking
-        .filter(g = g.pontos === maiorPontuacao)
-        .map(g = g.nome)
-        .join(', ');
-
-      let texto = `RESULTADO DA PARTIDA
-
-`;
-      texto += `ID ${estado.id}
-`;
-      texto += `Data ${estado.criadaEm}
-`;
-      texto += `Total de jogadas ${estado.jogadas.length}
-
-`;
-      texto += `PLACAR FINAL
-`;
-
-      ranking.forEach((g, i) = {
-        texto += `${i + 1}º - ${g.nome}  Pontos ${g.pontos}  Última casa ${g.casaAtual}
-`;
-      });
-
-      texto += `
-VENCEDOR(ES) ${vencedores  'Nenhum'}
-`;
-
-      const janela = window.open('', '_blank');
-      if (!janela) {
-        mostrarFeedback('warn', 'O navegador bloqueou a abertura da visualização. Tente permitir pop-ups para gerar o PDF.');
-        return;
-      }
-
-      janela.document.write(`
-        html
-          head
-            titleResultado da Partidatitle
-            style
-              body { font-family Arial, sans-serif; padding 24px; color #222; }
-              h1 { margin-bottom 12px; }
-              pre { font-size 14px; line-height 1.5; white-space pre-wrap; }
-            style
-          head
-          body
-            h1Resultado da Partidah1
-            pre${texto}pre
-            script
-              window.onload = function() {
-                window.print();
-              }
-            script
-          body
-        html
-      `);
-      janela.document.close();
-
-      mostrarFeedback('ok', 'Abrindo visualização para salvar em PDF.');
+    function setupToggle(btnId, contId) {
+      document.getElementById(btnId).onclick = function() {
+        const c = document.getElementById(contId);
+        c.classList.toggle('hidden');
+        this.innerText = c.classList.contains('hidden') ? 'Ver' : 'Ocultar';
+      };
     }
 
-    function apagarPartidaAtual() {
-      const confirmado = window.confirm('Tem certeza que deseja apagar a partida atual');
-      if (!confirmado) return;
-      sessionStorage.removeItem(STORAGE_KEY);
-      estado = criarEstadoInicial();
-      grupoSelecionadoId = 1;
-      salvarEstado(estado);
-      montarInputsGrupos();
-      popularSelectGrupos();
-      limparCamposRegistro();
-      render();
-      mostrarFeedback('ok', 'Partida atual apagada. Uma nova partida vazia foi criada nesta aba.');
-    }
+    setupToggle('btnToggleEquipes', 'equipesContent');
+    setupToggle('btnToggleCasas', 'casasContent');
+    setupToggle('btnToggleHistorico', 'historicoContent');
 
-    function updateResultButtons() {
-      document.getElementById('btnAcertou').style.outline = resultadoSelecionado === 'acertou'  '4px solid rgba(79,120,56,.20)'  'none';
-      document.getElementById('btnErrou').style.outline = resultadoSelecionado === 'errou'  '4px solid rgba(181,58,45,.20)'  'none';
-    }
-
-    function toggleSection(buttonId, contentId) {
-      const btn = document.getElementById(buttonId);
-      const content = document.getElementById(contentId);
-      btn.addEventListener('click', () = {
-        content.classList.toggle('hidden');
-        btn.textContent = content.classList.contains('hidden')  'Mostrar'  'Ocultar';
-      });
-    }
-
-    document.getElementById('btnNovaPartida').addEventListener('click', iniciarNovaPartida);
-    document.getElementById('btnRegistrar').addEventListener('click', registrarJogada);
-    document.getElementById('btnDesfazer').addEventListener('click', desfazerUltimaJogada);
-    document.getElementById('btnExportar').addEventListener('click', exportarResultado);
-    document.getElementById('btnResetar').addEventListener('click', apagarPartidaAtual);
-
-    document.getElementById('btnAcertou').addEventListener('click', () = {
-      resultadoSelecionado = 'acertou';
-      resultadoSelectEl.value = 'acertou';
-      updateResultButtons();
-    });
-
-    document.getElementById('btnErrou').addEventListener('click', () = {
-      resultadoSelecionado = 'errou';
-      resultadoSelectEl.value = 'errou';
-      updateResultButtons();
-    });
-
-    toggleSection('btnToggleEquipes', 'equipesContent');
-    toggleSection('btnToggleCasas', 'casasContent');
-    toggleSection('btnToggleHistorico', 'historicoContent');
-
-    montarInputsGrupos();
-    popularSelectGrupos();
-
-    for (let i = 0; i  TOTAL_GRUPOS; i++) {
-      document.getElementById(`grupoNome${i + 1}`).addEventListener('input', atualizarNomesAPartirInputs);
-    }
-
-    casaInputEl.addEventListener('keydown', (e) = {
-      if (e.key === 'Enter') registrarJogada();
-    });
-
-
-    updateResultButtons();
     render();
-  script
-body
-html
+  </script>
+</body>
+</html>
