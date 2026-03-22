@@ -4,22 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Trilha da Herpetofauna — Controle do Professor(a)</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  
   <style>
     :root {
       --bg-1: #f6f1e7;
       --bg-2: #e8dcc4;
       --panel: rgba(255, 251, 243, 0.96);
+      --panel-strong: #fffaf1;
       --ink: #2d241a;
       --muted: #786a57;
       --gold: #b98b3f;
       --gold-dark: #926a2f;
       --leaf: #55753c;
       --leaf-soft: #e6efdc;
+      --frog: #4a8d59;
+      --snake: #8b5e3c;
       --danger: #b53a2d;
       --danger-soft: #fae2de;
+      --line: #ddcfb7;
       --shadow: 0 10px 28px rgba(55, 37, 13, 0.12);
       --radius-xl: 24px;
       --radius-lg: 18px;
+      --radius-md: 14px;
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -28,7 +35,10 @@
       margin: 0;
       font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
       color: var(--ink);
-      background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+      background: 
+        radial-gradient(circle at top left, rgba(255,255,255,.45), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,.32), transparent 20%),
+        linear-gradient(180deg, var(--bg-1), var(--bg-2));
       min-height: 100vh;
     }
 
@@ -40,25 +50,53 @@
     }
 
     .hero {
+      position: relative;
+      overflow: hidden;
       background: linear-gradient(135deg, rgba(255,250,241,.98), rgba(249,241,223,.98));
       border: 1px solid rgba(185,139,63,.22);
       border-radius: 28px;
       box-shadow: var(--shadow);
       padding: 18px;
       margin-bottom: 14px;
-      text-align: center;
     }
 
     .title-badge {
       display: inline-flex;
-      padding: 8px 12px;
+      align-items: center;
+      gap: 8px;
       background: #f4ead5;
       color: var(--gold-dark);
+      border: 1px solid rgba(185,139,63,.28);
       border-radius: 999px;
+      padding: 8px 12px;
       font-size: 12px;
       font-weight: 800;
+      letter-spacing: .04em;
       text-transform: uppercase;
       margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 { margin: 0; font-size: clamp(26px, 6vw, 36px); line-height: 1.04; position: relative; z-index: 1; }
+
+    .subtitle {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+      position: relative;
+      z-index: 1;
+      max-width: 540px;
+    }
+
+    .mobile-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
     }
 
     .card {
@@ -66,213 +104,367 @@
       border: 1px solid rgba(119, 91, 41, 0.14);
       border-radius: var(--radius-xl);
       box-shadow: var(--shadow);
-      padding: 16px;
+      backdrop-filter: blur(6px);
       margin-bottom: 14px;
     }
 
-    .stack { display: grid; gap: 12px; }
+    .section { padding: 16px; }
+    .section h2 { margin: 0; font-size: 20px; line-height: 1.15; }
 
-    .mobile-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       gap: 10px;
-      margin-top: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
     }
 
-    input {
+    .section-note { font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 4px; }
+
+    .stack { display: grid; gap: 12px; }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    input, select, button { font: inherit; }
+
+    input, select {
       width: 100%;
       min-height: 54px;
-      padding: 14px;
+      padding: 14px 15px;
       border-radius: 16px;
       border: 1px solid #ddcfb7;
       background: #fffdf8;
+      color: var(--ink);
+      transition: .2s ease;
       font-size: 16px;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: rgba(185,139,63,.7);
+      box-shadow: 0 0 0 4px rgba(185,139,63,.12);
     }
 
     button {
+      border: none;
       border-radius: 16px;
       min-height: 56px;
-      padding: 14px;
+      padding: 14px 16px;
       cursor: pointer;
       font-weight: 800;
       font-size: 16px;
-      border: none;
-      transition: 0.2s;
+      letter-spacing: .01em;
+      transition: transform .04s ease, opacity .2s ease, filter .2s ease;
     }
 
-    .btn-primary { color: white; background: linear-gradient(180deg, var(--gold), var(--gold-dark)); width: 100%; }
-    .btn-success { color: white; background: linear-gradient(180deg, #679549, #4f7838); flex: 1; }
-    .btn-error { color: white; background: linear-gradient(180deg, #d65b4f, #b53a2d); flex: 1; }
-    .btn-secondary { color: var(--ink); background: #f5ead6; border: 1px solid rgba(185,139,63,.18); }
-    .btn-danger { color: white; background: #a93125; }
+    button:active { transform: translateY(1px); }
+    button:disabled { opacity: .55; cursor: not-allowed; }
 
-    .quick-group-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-    .group-btn {
-      background: white;
-      border: 2px solid transparent;
-      padding: 12px;
-      border-radius: 18px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    .group-btn.active { border-color: var(--gold); background: #fffcf5; box-shadow: 0 0 0 4px rgba(185,139,63,0.1); }
+    .btn-primary { color: white; background: linear-gradient(180deg, var(--gold), var(--gold-dark)); box-shadow: 0 8px 20px rgba(146, 106, 47, .24); }
+    .btn-success { color: white; background: linear-gradient(180deg, #679549, #4f7838); box-shadow: 0 8px 20px rgba(79, 120, 56, .22); }
+    .btn-error { color: white; background: linear-gradient(180deg, #d65b4f, #b53a2d); box-shadow: 0 8px 20px rgba(181, 58, 45, .22); }
+    .btn-secondary { color: var(--ink); background: linear-gradient(180deg, #f5ead6, #ebdcc2); border: 1px solid rgba(185,139,63,.18); }
+    .btn-danger { color: white; background: linear-gradient(180deg, #c84b3f, #a93125); box-shadow: 0 8px 20px rgba(169, 49, 37, .18); }
 
-    .house-board { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 15px; }
-    .house { 
-        height: 40px; background: white; border-radius: 10px; display: grid; 
-        place-items: center; font-size: 12px; border: 1px solid #eee; color: #bbb;
-    }
-    .house.visited { background: var(--leaf-soft); color: var(--leaf); border-color: var(--leaf); font-weight: bold; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .summary-box { padding: 14px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.8), rgba(248,240,224,.9)); border: 1px solid rgba(185,139,63,.16); }
+    .summary-label { display: block; font-size: 11px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .summary-value { font-size: 16px; font-weight: 800; word-break: break-word; }
 
-    .placar-item {
-      display: grid; grid-template-columns: 50px 1fr auto; gap: 12px; align-items: center;
-      padding: 12px; border-radius: 18px; background: white; border: 1px solid #eee; margin-bottom: 8px;
-    }
-    .posicao { width: 40px; height: 40px; border-radius: 50%; background: var(--gold); color: white; display: grid; place-items: center; font-weight: 900; }
+    .notice { display: none; margin-top: 12px; padding: 14px 16px; border-radius: 16px; font-size: 14px; line-height: 1.45; border: 1px solid transparent; }
+    .notice.show { display: block; }
+    .notice.info { background: #f2ede5; color: #5f5347; border-color: rgba(119,91,41,.12); }
+    .notice.ok { background: #e7f3e4; color: var(--leaf); border-color: rgba(85,117,60,.18); }
+    .notice.warn { background: #fdf0de; color: #9a620d; border-color: rgba(185,139,63,.25); }
+    .notice.bad { background: var(--danger-soft); color: var(--danger); border-color: rgba(181,58,45,.18); }
 
-    .history-item { border-radius: 12px; padding: 10px; background: white; margin-bottom: 8px; border-left: 5px solid var(--gold); font-size: 14px; }
+    .team-grid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+    .team-card { border-radius: 18px; padding: 14px; border: 1px solid rgba(119, 91, 41, .12); background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(244,238,224,.92)); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px; }
+    .team-name { font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+    .team-meta { color: var(--muted); font-size: 13px; line-height: 1.35; }
+    .team-score { display: inline-flex; align-items: center; justify-content: center; min-width: 70px; padding: 10px 12px; border-radius: 999px; background: var(--leaf-soft); color: var(--leaf); font-weight: 900; font-size: 18px; }
+
+    .quick-group-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .quick-group-btn { min-height: 64px; border-radius: 18px; padding: 12px; border: 2px solid transparent; background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(245,238,226,.96)); color: var(--ink); text-align: left; cursor: pointer; }
+    .quick-group-btn.active { border-color: rgba(185,139,63,.65); box-shadow: 0 0 0 4px rgba(185,139,63,.10); }
+
+    .placar-list { display: grid; gap: 10px; }
+    .placar-item { display: grid; grid-template-columns: 56px 1fr auto; gap: 12px; align-items: center; padding: 14px; border-radius: 18px; border: 1px solid rgba(119, 91, 41, .12); background: linear-gradient(180deg, rgba(255,255,255,.94), rgba(245,238,226,.94)); }
+    .placar-item.winner { border-color: rgba(85,117,60,.35); background: linear-gradient(180deg, #f4faef, #ebf6e5); }
+
+    .posicao { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(180deg, #ecd8ac, #c9974f); color: #fff; font-weight: 900; font-size: 18px; }
+    .big-number { font-size: 24px; font-weight: 900; color: var(--leaf); line-height: 1; }
+
+    .house-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .house { min-height: 54px; padding: 8px 4px; border-radius: 14px; border: 1px solid rgba(119, 91, 41, .12); background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(242,235,222,.96)); text-align: center; font-weight: 800; display: grid; place-items: center; font-size: 13px; }
+    .house.visited { background: linear-gradient(180deg, #e9f5e3, #dcefd3); color: var(--leaf); border-color: rgba(85,117,60,.25); }
+
+    .history-item { border-radius: 16px; padding: 13px 14px; border: 1px solid rgba(119,91,41,.12); background: white; margin-bottom: 8px; }
+    .pill { display: inline-flex; padding: 4px 10px; border-radius: 999px; background: #f0eadb; font-size: 11px; font-weight: 700; margin-right: 5px; }
     
-    @media (max-width: 600px) { .house-board { grid-template-columns: repeat(5, 1fr); } }
+    .hidden { display: none !important; }
+
+    /* Ocultar elementos específicos apenas durante a exportação para PDF */
+    @media print {
+      .mobile-actions, #btnToggleEquipes, #btnDesfazer, .quick-result-grid, #btnRegistrar, label[for="casaInput"], #casaInput {
+        display: none !important;
+      }
+    }
+
+    @media (min-width: 761px) {
+      .wrap { max-width: 1040px; }
+      .mobile-actions { grid-template-columns: repeat(3, 1fr); }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+      .quick-group-grid { grid-template-columns: repeat(5, 1fr); }
+      .house-board { grid-template-columns: repeat(10, 1fr); }
+    }
   </style>
 </head>
 <body>
-
-  <div class="wrap">
+  <div class="wrap" id="conteudoParaExportar">
     <section class="hero">
       <div class="title-badge">🐍 Trilha da Herpetofauna 🐸</div>
-      <h1 style="margin:0">Controle do Professor(a)</h1>
+      <h1>Controle do Professor(a)</h1>
+      <div class="subtitle">Página de controle da partida para registro rápido das jogadas e acompanhamento das equipes em tempo real.</div>
       <div class="mobile-actions">
-        <button class="btn-secondary" onclick="novaPartida()">✨ Novo</button>
-        <button class="btn-secondary" onclick="exportarPDF()">📦 Exportar</button>
-        <button class="btn-danger" onclick="limparCache()">🗑️ Reset</button>
+        <button class="btn-secondary" id="btnNovaPartida">✨ Nova partida</button>
+        <button class="btn-secondary" id="btnExportar">📦 Exportar PDF</button>
+        <button class="btn-danger" id="btnResetar">🗑️ Apagar</button>
       </div>
     </section>
 
-    <div class="card">
-      <h2 style="font-size:18px; margin-top:0">1. Selecione o Grupo</h2>
-      <div id="gridGrupos" class="quick-group-grid"></div>
-      
-      <h2 style="font-size:18px; margin-top:15px">2. Registrar Jogada</h2>
-      <div class="stack">
-        <input id="inputCasa" type="number" placeholder="Digite o número da casa (1-50)" inputmode="numeric">
-        <div style="display:flex; gap:10px;">
-          <button id="btnAcertou" class="btn-success" onclick="definirStatus('acertou')">✅ Acertou</button>
-          <button id="btnErrou" class="btn-error" onclick="definirStatus('errou')">❌ Errou</button>
+    <section class="card section">
+      <div class="section-head">
+        <div>
+          <h2>Equipes</h2>
+          <div class="section-note">Edite os nomes e acompanhe casa atual e pontuação.</div>
         </div>
-        <button class="btn-primary" onclick="confirmarJogada()">🎯 Confirmar Jogada</button>
+        <button class="btn-secondary" id="btnToggleEquipes">Ocultar</button>
       </div>
-    </div>
+      <div id="equipesContent" class="stack">
+        <div id="grupoInputs" class="stack"></div>
+        <div id="teamPreview"></div>
+      </div>
+    </section>
 
-    <div class="card">
-      <h2 style="font-size:18px; margin-top:0">Ranking Atual</h2>
-      <div id="rankingLista"></div>
-      
-      <h2 style="font-size:18px; margin-top:20px">Mapa de Exploração</h2>
-      <div id="mapa" class="house-board"></div>
-    </div>
+    <section class="card section">
+      <h2>Registrar jogada</h2>
+      <div class="stack">
+        <label>Grupo</label>
+        <div id="quickGroupGrid" class="quick-group-grid"></div>
+        <div>
+          <label for="casaInput">Casa</label>
+          <input id="casaInput" type="number" min="1" max="50" placeholder="Digite a casa, ex. 12" inputmode="numeric">
+        </div>
+        <div class="quick-result-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+          <button class="btn-success" id="btnAcertou">✅ Acertou (+1)</button>
+          <button class="btn-error" id="btnErrou">❌ Errou (+0)</button>
+        </div>
+        <button class="btn-primary" id="btnRegistrar">🎯 Registrar jogada</button>
+      </div>
+      <div class="notice" id="feedback"></div>
+      <button class="btn-secondary" id="btnDesfazer" style="margin-top:10px; width:100%">↩️ Desfazer última jogada</button>
+    </section>
 
-    <div class="card">
-        <h2 style="font-size:18px; margin-top:0">Histórico Recente</h2>
-        <div id="historico"></div>
-    </div>
+    <section class="card section">
+      <h2>Ranking e Mapa</h2>
+      <div id="tabelaPlacar"></div>
+      <div id="casasVisitadas" style="margin-top:20px"></div>
+    </section>
+
+    <section class="card section">
+      <h2>Histórico</h2>
+      <div id="historico"></div>
+    </section>
   </div>
 
   <script>
-    const STORAGE_KEY = 'herpeto_v4_prod';
-    let db = JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || {
-      grupos: Array.from({length: 5}, (_, i) => ({ id: i+1, nome: `Grupo ${i+1}`, pts: 0, casa: '-' })),
-      historico: [],
-      visitadas: []
-    };
+    const STORAGE_KEY = 'placar_partida_herpeto_v1';
+    const TOTAL_GRUPOS = 5;
+    const TOTAL_CASAS = 50;
 
-    let idAtivo = 1;
-    let statusAtivo = 'acertou';
+    let grupoSelecionadoId = 1;
+    let resultadoSelecionado = 'acertou';
+
+    function gerarId() { return `PARTIDA-${Date.now()}`; }
+    function agoraFormatado() { return new Date().toLocaleString('pt-BR'); }
+
+    function criarEstadoInicial() {
+      return {
+        id: gerarId(),
+        criadaEm: agoraFormatado(),
+        grupos: Array.from({ length: TOTAL_GRUPOS }, (_, i) => ({
+          id: i + 1,
+          nome: `Grupo ${i + 1}`,
+          casaAtual: '-',
+          pontos: 0
+        })),
+        jogadas: [],
+        casasVisitadas: []
+      };
+    }
+
+    let estado = JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || criarEstadoInicial();
 
     function salvar() {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(db));
-      renderizar();
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+      render();
     }
 
-    function definirStatus(s) {
-      statusAtivo = s;
-      document.getElementById('btnAcertou').style.filter = s === 'acertou' ? 'brightness(1)' : 'brightness(0.5)';
-      document.getElementById('btnErrou').style.filter = s === 'errou' ? 'brightness(1)' : 'brightness(0.5)';
-    }
-
-    function confirmarJogada() {
-      const casa = parseInt(document.getElementById('inputCasa').value);
-      if (!casa || casa < 1 || casa > 50) return alert("Escolha uma casa válida!");
-      if (db.visitadas.includes(casa)) return alert("Casa já visitada!");
-
-      const g = db.grupos.find(x => x.id === idAtivo);
-      const acertou = statusAtivo === 'acertou';
-
-      g.casa = casa;
-      if (acertou) g.pts++;
-
-      db.visitadas.push(casa);
-      db.historico.unshift({ texto: `${g.nome} na casa ${casa} (${acertou ? 'Acertou' : 'Errou'})`, hora: new Date().toLocaleTimeString() });
-
-      document.getElementById('inputCasa').value = '';
-      salvar();
-    }
-
-    function exportarPDF() {
-        const ordenado = [...db.grupos].sort((a,b) => b.pts - a.pts);
-        let relatorio = `RELATÓRIO DE PARTIDA\n------------------\n`;
-        ordenado.forEach((g, i) => {
-            relatorio += `${i+1}º - ${g.nome} | Pontos: ${g.pts} | Casa Final: ${g.casa}\n`;
+    function render() {
+      // Renderizar Inputs de Nomes
+      const inputsArea = document.getElementById('grupoInputs');
+      if (inputsArea.innerHTML === '') {
+        inputsArea.innerHTML = estado.grupos.map(g => `
+          <div>
+            <label>Nome Grupo ${g.id}</label>
+            <input class="nome-input" data-id="${g.id}" value="${g.nome}">
+          </div>
+        `).join('');
+        
+        document.querySelectorAll('.nome-input').forEach(inp => {
+          inp.oninput = (e) => {
+            const id = parseInt(e.target.dataset.id);
+            estado.grupos.find(g => g.id === id).nome = e.target.value;
+            salvar();
+          };
         });
+      }
 
-        const win = window.open('', '_blank');
-        if(!win) return alert("Habilite pop-ups para gerar o relatório!");
-
-        win.document.write(`
-            <html><head><title>Relatório Trilha</title></head>
-            <body style="font-family:sans-serif; padding:40px;">
-                <h1 style="color:#b98b3f">Trilha da Herpetofauna</h1>
-                <pre style="font-size:18px; line-height:1.8;">${relatorio}</pre>
-                <script>setTimeout(() => { window.print(); window.close(); }, 500);<\/script>
-            </body></html>
-        `);
-        win.document.close();
-    }
-
-    function novaPartida() { if(confirm("Zerar placar?")) { db.grupos.forEach(g => {g.pts=0; g.casa='-';}); db.historico=[]; db.visitadas=[]; salvar(); } }
-    function limparCache() { if(confirm("Apagar todos os dados e nomes?")) { sessionStorage.clear(); location.reload(); } }
-
-    function renderizar() {
-      // Grupos Seletor
-      document.getElementById('gridGrupos').innerHTML = db.grupos.map(g => `
-        <div class="group-btn ${g.id === idAtivo ? 'active' : ''}" onclick="idAtivo=${g.id}; renderizar();">
-          <small>ID ${g.id}</small><br><b>${g.nome}</b><br>
-          <small>Pts: ${g.pts} | Casa: ${g.casa}</small>
-        </div>
+      // Quick Group Buttons
+      document.getElementById('quickGroupGrid').innerHTML = estado.grupos.map(g => `
+        <button class="quick-group-btn ${g.id === grupoSelecionadoId ? 'active' : ''}" onclick="selecionarGrupo(${g.id})">
+          <b>${g.nome}</b><br><small>Casa: ${g.casaAtual} | Pts: ${g.pontos}</small>
+        </button>
       `).join('');
 
       // Ranking
-      const rank = [...db.grupos].sort((a,b) => b.pts - a.pts);
-      document.getElementById('rankingLista').innerHTML = rank.map((g, i) => `
+      const ranking = [...estado.grupos].sort((a,b) => b.pontos - a.pontos);
+      document.getElementById('tabelaPlacar').innerHTML = ranking.map((g, i) => `
         <div class="placar-item">
-          <div class="posicao">${i+1}</div>
-          <b>${g.nome}</b>
-          <div style="font-size:20px; font-weight:900; color:var(--leaf)">${g.pts}</div>
+          <div class="posicao">${i+1}º</div>
+          <div><b>${g.nome}</b></div>
+          <div class="big-number">${g.pontos}</div>
         </div>
       `).join('');
 
-      // Mapa
-      document.getElementById('mapa').innerHTML = Array.from({length: 50}, (_, i) => i + 1).map(c => `
-        <div class="house ${db.visitadas.includes(c) ? 'visited' : ''}">${c}</div>
-      `).join('');
+      // Mapa de Casas
+      document.getElementById('casasVisitadas').innerHTML = `
+        <div class="house-board">
+          ${Array.from({length:50}, (_,i)=>i+1).map(c => `
+            <div class="house ${estado.casasVisitadas.includes(c) ? 'visited' : ''}">${c}</div>
+          `).join('')}
+        </div>
+      `;
 
       // Histórico
-      document.getElementById('historico').innerHTML = db.historico.map(h => `
-        <div class="history-item"><b>${h.texto}</b> <span style="float:right; font-size:11px; color:#999">${h.hora}</span></div>
+      document.getElementById('historico').innerHTML = estado.jogadas.slice().reverse().map(j => `
+        <div class="history-item">
+          <b>${j.grupoNome}</b> na Casa ${j.casa} - ${j.acertou ? '✅' : '❌'}<br>
+          <small>${j.data}</small>
+        </div>
       `).join('');
     }
 
-    definirStatus('acertou');
-    renderizar();
+    window.selecionarGrupo = (id) => { grupoSelecionadoId = id; render(); };
+
+    document.getElementById('btnAcertou').onclick = () => { 
+      resultadoSelecionado = 'acertou';
+      document.getElementById('btnAcertou').style.filter = "brightness(1.2)";
+      document.getElementById('btnErrou').style.filter = "brightness(0.8)";
+    };
+    document.getElementById('btnErrou').onclick = () => { 
+      resultadoSelecionado = 'errou';
+      document.getElementById('btnErrou').style.filter = "brightness(1.2)";
+      document.getElementById('btnAcertou').style.filter = "brightness(0.8)";
+    };
+
+    document.getElementById('btnRegistrar').onclick = () => {
+      const casa = parseInt(document.getElementById('casaInput').value);
+      if (isNaN(casa) || casa < 1 || casa > 50) return alert("Casa inválida");
+      if (estado.casasVisitadas.includes(casa)) return alert("Casa já visitada");
+
+      const grupo = estado.grupos.find(g => g.id === grupoSelecionadoId);
+      const acertou = resultadoSelecionado === 'acertou';
+      
+      grupo.casaAtual = casa;
+      if (acertou) grupo.pontos += 1;
+      
+      estado.casasVisitadas.push(casa);
+      estado.jogadas.push({
+        grupoNome: grupo.nome,
+        casa: casa,
+        acertou: acertou,
+        data: agoraFormatado()
+      });
+      
+      document.getElementById('casaInput').value = '';
+      salvar();
+    };
+
+    document.getElementById('btnDesfazer').onclick = () => {
+      if (estado.jogadas.length === 0) return;
+      const ultima = estado.jogadas.pop();
+      estado.casasVisitadas = estado.casasVisitadas.filter(c => c !== ultima.casa);
+      const grupo = estado.grupos.find(g => g.nome === ultima.grupoNome);
+      if (ultima.acertou) grupo.pontos -= 1;
+      
+      const penultimaJogada = estado.jogadas.slice().reverse().find(j => j.grupoNome === grupo.nome);
+      grupo.casaAtual = penultimaJogada ? penultimaJogada.casa : '-';
+      salvar();
+    };
+
+    document.getElementById('btnResetar').onclick = () => {
+      if (confirm("Apagar tudo?")) {
+        estado = criarEstadoInicial();
+        salvar();
+        location.reload();
+      }
+    };
+
+    document.getElementById('btnNovaPartida').onclick = () => {
+      if (confirm("Iniciar nova partida?")) {
+        estado = criarEstadoInicial();
+        salvar();
+      }
+    };
+
+    document.getElementById('btnToggleEquipes').onclick = (e) => {
+      const cont = document.getElementById('equipesContent');
+      cont.classList.toggle('hidden');
+      e.target.innerText = cont.classList.contains('hidden') ? 'Mostrar' : 'Ocultar';
+    };
+
+    // FUNÇÃO DE EXPORTAÇÃO AJUSTADA
+    document.getElementById('btnExportar').onclick = () => {
+      const elemento = document.getElementById('conteudoParaExportar');
+      
+      const opcoes = {
+        margin: [10, 5, 10, 5],
+        filename: `Trilha-Herpeto-${estado.id}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+          scale: 2, 
+          useCORS: true,
+          letterRendering: true
+        },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opcoes).from(elemento).save();
+    };
+
+    // Inicialização
+    render();
   </script>
 </body>
 </html>
